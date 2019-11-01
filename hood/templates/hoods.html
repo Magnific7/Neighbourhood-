@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+ {% load staticfiles %}
 
-    <title>Neighbourhood</title>
-</head>
-<body>
+{% block content %} 
+{{ block.super}}
+
     {% for business in businesses %}
         <h2>{{business.name}}</h2>
         <p>{{business.description}}</p>
@@ -18,5 +18,9 @@
         <h4>{{post.name}}</h4>
         <img src="{{post.image.url}}">
     {% endfor%}
-</body>
-</html>
+
+{% endblock %}
+
+{% block styles %} {% bootstrap_css %}
+  <link rel="stylesheet" href="{% static 'css/hood.css' %}">
+{% endblock %}

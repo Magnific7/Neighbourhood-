@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+</head>
+<body>
+        <ul class="nav nav-tabs" style="background-color:rgb(184, 174, 174);">
+                <li><a href="{% url 'home'%}">Home</a></li>
+                <li>
+                        <div style="padding:10px;">
+          
+                          <form class="form-inline my-2 my-lg-0" role="search" action="{% url 'search_results' %}">
+                            <input class="form-control mr-sm-2" type="search"  name="name" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                          </form>
+                          </div>
+                    </li>
+        </ul>
+</body>
+</html>

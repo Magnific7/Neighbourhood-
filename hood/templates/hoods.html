@@ -4,21 +4,26 @@
 
 {% block content %} 
 {{ block.super}}
+   <div class="container">
+       <div class="row">
+        {% for business in businesses %}
+        <h2>Businesses in the neighbourhood</h2>
+            <div class="card">
+                
+                <h3 class="card-header">{{business.name}}</h3>
+                <p>{{business.description}}</p>
+                <p>police:{{business.hood.police}}</p>
+                <p>health_department:{{business.hood.health_department}}</p>
+                <p>posts:{{business.hood.post}}</p>
+            </div>
+        {% endfor %}
 
-    {% for business in businesses %}
-        <h2>{{business.name}}</h2>
-        <p>{{business.description}}</p>
-        <p>police:{{business.hood.police}}</p>
-        <p>health_department:{{business.hood.health_department}}</p>
-        <p>posts:{{business.hood.post}}</p>
-        
-    {% endfor %}
-
-    {% for post in posts %}
-        <h4>{{post.name}}</h4>
-        <img src="{{post.image.url}}">
-    {% endfor%}
-
+        {% for post in posts %}
+            <h4>{{post.name}}</h4>
+            <img src="{{post.image.url}}">
+        {% endfor%}
+       </div>
+   </div>
 {% endblock %}
 
 {% block styles %} {% bootstrap_css %}

@@ -8,7 +8,7 @@
 <div class="container">
     {% for hood in hoods %}
     <ul>
-       <li><a href="{%url 'hood' hood.id%}">{{hood.hood}}</a></li>
+       <li>{{hood.hood}}<a href="{%url 'join' hood.id%}">         Join hood</a></li>
     </ul>
     {% endfor %}
 

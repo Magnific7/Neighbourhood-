@@ -1,20 +1,94 @@
-from django.shortcuts import render
-from .models import Neighborhood,Business,Post,Profile
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
+from .models import Neighborhood,Profile,Join,Post,Business
+from .forms import *
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
+
+
+
 # Create your views here.
 
-@login_required(login_url='/accounts/login/')
-def home(request):
-    hoods = Neighborhood.all_neighborhoods()
-    # image_comments = Image.get_images()
-    return render(request, 'home.html', {"hoods":hoods})
 
-def hoods(request, hood_id):
-    hood = Neighborhood.objects.get(id=hood_id)
-    businesses = Business.objects.filter(hood=hood)
-    posts = Post.objects.filter(hood=hood)
-    # image_comments = Image.get_images()
-    return render(request, 'hoods.html', {"businesses":businesses,"hood":hood,"posts":posts})
+def home(request):
+
+    if request.user.is_authenticated:
+        if Join.objects.filter(user_id=request.user).exists():
+            hoods = Neighborhood.objects.get(pk=request.user.join.hood.id)
+            posts = Post.objects.filter(hood=request.user.join.hood.id)
+            businesses = Business.objects.filter(hood=request.user.join.hood.id)
+
+            return render(request, 'hoods.html', {"hoods": hoods, "businesses": businesses, "posts": posts})
+        else:
+            hoods = Neighborhood.objects.all()
+            return render(request, 'home.html', {"hoods": hoods})
+    else:
+        hoods = Neighborhood.objects.all()
+        return render(request, 'home.html', {"hoods": hoods})
+
+
+# @login_required(login_url='/accounts/login/')
+# def profile(request, username):
+#     profile = User.objects.get(username=username)
+#     hoods = Neighborhood.objects.filter(user=request.user).all()
+#     businesses = Business.objects.filter(user=request.user).all()
+#     posts = Post.object.filter(user=request.user).all()
+#     return render(request, 'profile.html', {"profile": profile, "hoods": hoods, "businesses": businesses,"posts":posts})
+
+@login_required(login_url='/accounts/login/')
+def profile(request,user):
+    current_user = request.user
+    user = User.objects.get(pk=user)
+    posts = Post.objects.filter(user=user)
+    profile = Profile.objects.filter(user = user)
+
+    return render (request, 'profile.html', {'posts':posts,'current_user': current_user,'profile':profile})
+
+@login_required(login_url='/accounts/login/')
+def edit_profile(request):
+    current_user = request.user
+    profile = Profile.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = current_user
+            profile.save()
+        return redirect('profile')
+
+    else:
+        form = EditProfileForm(instance=profile)
+    return render(request, 'edit_profile.html', {"form": form})
+
+
+def hoods(request):
+
+    hood = Neighborhood.objects.filter(user=request.user)
+
+    return render(request, 'hood.html', {"hood": hood})
+
+
+@login_required(login_url='/accounts/login/')
+def join(request, hood):
+
+    hood = Neighborhood.objects.get(pk=hood)
+    if Join.objects.filter(user=request.user).exists():
+        Join.objects.filter(user=request.user).update(hood=hood)
+    else:
+
+        Join(user=request.user, hood=hood).save()
+    return redirect('home')
+
+
+@login_required(login_url='/accounts/login/')
+def exitHood(request, hood):
+
+    if Join.objects.filter(user=request.user).exists():
+        Join.objects.get(user=request.user).delete()
+        return redirect('home')
+
 
 def search_results(request):
 
@@ -28,3 +102,26 @@ def search_results(request):
     else:
         message = "You haven't searched for any term"
         return render(request, 'search.html',{"message":message})
+
+
+@login_required(login_url='/accounts/login/')
+def new_post(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = NewPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = current_user
+            post.hood = request.user.join.hood
+            post.save()
+        return redirect('homepage')
+
+    else:
+        form = NewPostForm()
+    return render(request, 'newpost.html', {"form": form})
+
+
+def occupants(request, id):
+    occupants = Join.objects.filter(id=hood).count()
+
+    return redirect('home')

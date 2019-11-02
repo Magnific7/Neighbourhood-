@@ -24,6 +24,11 @@ class Profile(models.Model):
     def update_profile(self,update):
         self.bio = update
         self.save()
+    
+    @classmethod
+    def get_profile(cls, id):
+        profile = Profile.objects.get(user=id)
+        return profile
 
     @classmethod
     def find_profile(cls, search_term):
@@ -106,3 +111,11 @@ class Post(models.Model):
     def all_posts(cls,id):
         posts = Post.objects.all()
         return posts
+
+class Join(models.Model):
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    hood = models.ForeignKey(Neighborhood, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.user_id

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Neighborhood,Profile,Join,Post,Business
-from .forms import *
+from .forms import EditProfileForm,NewPostForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 
@@ -14,7 +14,7 @@ from django.contrib.auth.models import User
 def home(request):
 
     if request.user.is_authenticated:
-        if Join.objects.filter(user_id=request.user).exists():
+        if Join.objects.filter(user=request.user).exists():
             hoods = Neighborhood.objects.get(pk=request.user.join.hood.id)
             posts = Post.objects.filter(hood=request.user.join.hood.id)
             businesses = Business.objects.filter(hood=request.user.join.hood.id)
@@ -37,29 +37,34 @@ def home(request):
 #     return render(request, 'profile.html', {"profile": profile, "hoods": hoods, "businesses": businesses,"posts":posts})
 
 @login_required(login_url='/accounts/login/')
-def profile(request,user):
+def profile(request, user):
     current_user = request.user
     user = User.objects.get(pk=user)
     posts = Post.objects.filter(user=user)
     profile = Profile.objects.filter(user = user)
+    business = Business.objects.filter(user = user)
 
-    return render (request, 'profile.html', {'posts':posts,'current_user': current_user,'profile':profile})
+    return render (request, 'profile.html', {'posts':posts,'current_user': current_user,'profile':profile,"business":business})
 
 @login_required(login_url='/accounts/login/')
 def edit_profile(request):
     current_user = request.user
-    profile = Profile.objects.get(user=request.user)
-
     if request.method == 'POST':
-        form = EditProfileForm(request.POST, request.FILES, instance=profile)
+        if Profile.objects.filter(user=current_user).exists():
+            form = EditProfileForm(request.POST, request.FILES,instance=Profile.objects.get(user=current_user))
+        else:
+            form = EditProfileForm(request.POST, request.FILES)
         if form.is_valid():
             profile = form.save(commit=False)
             profile.user = current_user
             profile.save()
-        return redirect('profile')
+        return redirect('home')
 
     else:
-        form = EditProfileForm(instance=profile)
+        if Profile.objects.filter(user=current_user).exists():
+            form = EditProfileForm(instance = Profile.objects.get(user=current_user))
+        else:
+            form = EditProfileForm()
     return render(request, 'edit_profile.html', {"form": form})
 
 
@@ -110,11 +115,11 @@ def new_post(request):
     if request.method == 'POST':
         form = NewPostForm(request.POST, request.FILES)
         if form.is_valid():
+            print('jkknl')
             post = form.save(commit=False)
             post.user = current_user
-            post.hood = request.user.join.hood
             post.save()
-        return redirect('homepage')
+        return redirect('home')
 
     else:
         form = NewPostForm()
@@ -125,3 +130,6 @@ def occupants(request, id):
     occupants = Join.objects.filter(id=hood).count()
 
     return redirect('home')
+
+
+    #editprofile,add business,etc

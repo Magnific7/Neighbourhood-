@@ -10,6 +10,8 @@ import datetime as dt
 
 
 class Profile(models.Model):
+    class Meta:
+        db_table = 'profile'
     profile_photo = models.ImageField(upload_to='images/', blank=True)
     contact_no =  models.CharField(max_length = 10,blank =True)
     email = models.EmailField(max_length=70, blank=True)
@@ -39,10 +41,6 @@ class Profile(models.Model):
     def filter_by_id(cls, id):
         profile = Profile.objects.filter(user=id).first()
         return profile
-
-    class Meta:
-        ordering = ['user']
-
 
 class Neighborhood(models.Model):
     hood = models.CharField(max_length=30, default="e.g Kagarama, Niboyi, Gisenyi etc")

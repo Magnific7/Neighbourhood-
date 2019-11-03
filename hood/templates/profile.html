@@ -11,7 +11,7 @@
         </div>
         <div class="col-md-8">
             <h2><strong>{{credential.user}}</strong></h2>
-            <h4><strong>{{images|length}}</strong> Post{{images|pluralize}} <strong>{{followers}}</strong> Follower{{followers|pluralize}} <strong>{{followings}}</strong> Following</h4>
+            <h4><strong>{{posts|length}}</strong> Post{{posts|pluralize}}</h4>
             <h4>{{credential.bio}}</h4>
             {%if credential.user.id == user.id%}
             <a class="btn btn-default btn-lg" href="{% url 'edit_profile' %}">
@@ -27,7 +27,7 @@
       </div>
       <div class="col-md-8">
         <h2><strong>{{user}}</strong></h2>
-        <h4><strong>0</strong> Post <strong>0</strong> Followers<strong>0</strong> Following</h4>
+        <h4><strong>0</strong> Post <strong>0</strong></h4>
         <h4>An Awesome Bio Will Appear Here</h4>
         <a class="btn btn-sm btn-primary" href="{% url 'edit_profile' %}"> Update Profile</a>
       </div>
@@ -36,17 +36,26 @@
 <hr>    
 <div class="row">
    <div class="container">
+     
    {%if posts%}
+     <h2>Posts</h2>
         {% for image in posts%}
-            <div class="col-md-4">                
-                <div class="hovereffect thumbnail">
-                    <img class="img-responsive" src="{{image.image.url}}" alt="">
+        
+            <div class="col-md-4" style="display:flex;flex-direction: row;">                
+                <div class="card" style="background-color: rgb(72, 121, 115);">
+                   <h2 class="card-header">{{image.name}}</h2>
+                   <p>{{image.description}}</p>
                 </div>
             </div>
         {%endfor%}
    {%else%}
+   {% if businesses %}
+    {% for buz in businesses%}
+    <p>{{buz.name}}</p>
+    {% endfor %}
+   {% endif %}
      {%if credential.user.id == user.id%}
-         <h3 class="text-center">You havent posted any images yet. Get started by posting one <a href="{% url 'new-post' %}">here</a></h3>
+         <h3 class="text-center">You havent posted any profile yet. Get started by posting one <a href="{% url 'new-post' %}">here</a></h3>
      {%else%}
        <h3 class="text-center">This user hasn't created any posts yet.</h3>
      {%endif%}

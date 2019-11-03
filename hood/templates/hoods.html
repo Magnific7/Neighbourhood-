@@ -7,20 +7,27 @@
    <div class="container">
        <div class="row">
         {% for business in businesses %}
-        <h2>Businesses in the neighbourhood</h2>
+            <h1 style="text-align: center;">Welcome to the {{business.hood.hood}} neighbourhood</h1><br><br>
+            <p style="margin-right: 1%"><a href="{%url 'exit' business.hood.id%}"> Leave hood</a></p>
+          <div style="border-block-color: blue;">
+            <h2>Businesses in the neighbourhood</h2>
             <div class="card">
                 
                 <h3 class="card-header">{{business.name}}</h3>
-                <p>{{business.description}}</p>
+                <p>description:{{business.description}}</p>
                 <p>police:{{business.hood.police}}</p>
                 <p>health_department:{{business.hood.health_department}}</p>
-                <p>posts:{{business.hood.post}}</p>
             </div>
+          </div>
         {% endfor %}
 
         {% for post in posts %}
-            <h4>{{post.name}}</h4>
-            <img src="{{post.image.url}}">
+        <div style="border-block-color: blue;float:right;">
+            <h6>post_name:{{post.name}}</h6>
+            <p>description{{post.description}}</p>
+            <p>Owner:{{post.user}}</p>
+           
+        </div>
         {% endfor%}
        </div>
    </div>

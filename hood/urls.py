@@ -9,7 +9,7 @@ urlpatterns=[
    url(r'^join/(\d+)',views.join,name = 'join'),
    url(r'^profile/(\d+)', views.profile, name='profile'),
    url(r'^editprofile/',views.edit_profile,name = 'edit_profile'),
-   url(r'^exithood/(\d+)',views.profile,name = 'profile'),
+   url(r'^exithood/(\d+)',views.exitHood,name = 'exit'),
    url(r'^newpost/',views.new_post,name = 'new_post'),
 ]
 if settings.DEBUG:

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Neighborhood,Profile,Join,Post,Business
-from .forms import EditProfileForm,NewPostForm
+from .forms import EditProfileForm,NewPostForm,NewBussForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 
@@ -124,6 +124,22 @@ def new_post(request):
     else:
         form = NewPostForm()
     return render(request, 'newpost.html', {"form": form})
+
+@login_required(login_url='/accounts/login/')
+def new_buss(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = NewBussForm(request.POST, request.FILES)
+        if form.is_valid():
+            Buss = form.save(commit=False)
+            Buss.user = current_user
+            Buss.hood = request.user.join.hood
+            Buss.save()
+        return redirect('home')
+
+    else:
+        form = NewBussForm()
+    return render(request, 'newbuss.html', {"form": form})
 
 
 def occupants(request, id):

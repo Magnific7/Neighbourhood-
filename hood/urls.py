@@ -11,6 +11,7 @@ urlpatterns=[
    url(r'^editprofile/',views.edit_profile,name = 'edit_profile'),
    url(r'^exithood/(\d+)',views.exitHood,name = 'exit'),
    url(r'^newpost/',views.new_post,name = 'new_post'),
+   url(r'^add/buss$', views.new_buss, name='new_buss'),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

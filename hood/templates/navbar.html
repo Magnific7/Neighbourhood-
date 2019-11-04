@@ -10,13 +10,16 @@
 </head>
 <body class="jumbotron">
 <!-- <body style="background-image: url('https://i2.wp.com/bbbslubbock.org/wp-content/uploads/2018/10/grey-background-for-site-for-website-1432015867.jpg?ssl=1')"> -->
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" style="justify-content: space-around;">
                 <li><a href="{% url 'home'%}">Home</a></li>
                 {% if user.is_authenticated %}
                 
                 
                 <li>
                   <a href="{% url 'new_post'%}">post</a>
+                </li>
+                <li>
+                  <a href="{% url 'new_buss'%}">Add a business</a>
                 </li>
                   <li style="float:right;margin-right: 9%">
                     <a class='btn btn-default' href="/logout">Logout</a>
@@ -29,7 +32,7 @@
       
                         <form class="form" role="search" action="{% url 'search_results' %}">
                             <input class="form-control mr-sm-2" type="search"  name="name" placeholder="Search" aria-label="Search" style="background-color: transparent;color:white;">
-                            
+                        </form>
                       </div>
                 </li>
                 

@@ -28,7 +28,7 @@ As a user of the application i should be able to:
 * Have an internet connection
 * Live app here https://cherucole-watchtower.herokuapp.com/
 
-* install Django
+* install Django.
 
    ```$ pip install django==1.11```
 

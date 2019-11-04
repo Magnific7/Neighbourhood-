@@ -6,8 +6,7 @@ This application was built by Django version 1.11 a python framework.
 
 ### Description
 
-The Watchtower is a neighborhood watch web application that allows you to be aware about everything happening in your neighborhood. From contact information of different han
-
+The Watchtower is a neighborhood watch web application that allows you to be aware about everything happening in your neighborhood. From contact information of different h
 ## User Stories
 
 As a user of the application i should be able to:

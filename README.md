@@ -18,7 +18,7 @@ As a user of the application i should be able to:
 *Find Contact Information for the health department and Police authorities near my neighborhood.
 *Create Posts that will be visible to everyone in my neighborhood.
 *Change My neighborhood when I decide to move out.
-*Only view details of a single neighborhood.
+*Only view details of a single neighborhood  .
 
 ## Setup/Installation Requirements
 

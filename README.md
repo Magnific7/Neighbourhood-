@@ -4,7 +4,7 @@ This application was built by Django version 1.11 a python framework.
 
 #### By UM Magnific 
 
-### Description
+### Description.
 
 The Watchtower is a neighborhood watch web application that allows you to be aware about everything happening in your neighborhood. From contact information.
 ## User Stories

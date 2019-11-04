@@ -12,7 +12,9 @@
         <div class="col-md-8">
             <h2><strong>{{credential.user}}</strong></h2>
             <h4><strong>{{posts|length}}</strong> Post{{posts|pluralize}}</h4>
-            <h4>{{credential.bio}}</h4>
+            <h4>bio:{{credential.bio}}</h4>
+            <h4>Contact:{{credential.contact_no}}</h4>
+            <h4>email:{{credential.email}}</h4>
             {%if credential.user.id == user.id%}
             <a class="btn btn-default btn-lg" href="{% url 'edit_profile' %}">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Edit Profile
@@ -55,7 +57,7 @@
     {% endfor %}
    {% endif %}
      {%if credential.user.id == user.id%}
-         <h3 class="text-center">You havent posted any profile yet. Get started by posting one <a href="{% url 'new-post' %}">here</a></h3>
+         <h3 class="text-center">You havent posted any profile yet. Get started by posting one <a href="{% url 'new_post' %}">here</a></h3>
      {%else%}
        <h3 class="text-center">This user hasn't created any posts yet.</h3>
      {%endif%}

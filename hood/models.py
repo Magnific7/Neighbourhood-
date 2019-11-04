@@ -26,7 +26,11 @@ class Profile(models.Model):
     def update_profile(self,update):
         self.bio = update
         self.save()
-    
+    @classmethod
+    def get_all_profiles(cls):
+        proff = cls.objects.all()
+        return proff
+
     @classmethod
     def get_profile(cls, id):
         profile = Profile.objects.get(user=id)
@@ -89,7 +93,11 @@ class Business(models.Model):
     def search_by_name(cls, search_term):
         businesses = cls.objects.filter(name__icontains=search_term)
         return businesses
-
+    
+    @classmethod
+    def find_by_neigborhood(cls, hood):
+        buss = Business.objects.filter(hood=hood)
+        return buss
 
 class Post(models.Model):
     name = models.CharField(max_length=30)
@@ -109,6 +117,11 @@ class Post(models.Model):
     def all_posts(cls,id):
         posts = Post.objects.all()
         return posts
+
+    @classmethod
+    def search_by_name(cls, search_term):
+        post = cls.objects.filter(name__icontains=search_term)
+        return post
 
 class Join(models.Model):
 
